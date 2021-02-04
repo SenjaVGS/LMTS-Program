@@ -1,0 +1,9 @@
+version: 1.1.7
+files:
+  - url: lmts-setup-1.1.7.exe
+    sha512: bhq4ew7YYektyZO9pV3Yy3mSh32CLGO4Cd+qyrLI87pdbOAztfiKMM9Wc0uKVfmKSAt4S+P+X8Ms4zjTJzYgfw==
+    size: 54908087
+path: lmts-setup-1.1.7.exe
+sha512: bhq4ew7YYektyZO9pV3Yy3mSh32CLGO4Cd+qyrLI87pdbOAztfiKMM9Wc0uKVfmKSAt4S+P+X8Ms4zjTJzYgfw==
+sha2: 6f219311fec51f5e6be502d8ae75c6768736642e09857091e8b9486e13e3ac04
+releaseDate: '2021-02-04T09:22:41.687Z'

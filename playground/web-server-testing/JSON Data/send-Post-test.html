@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="http://10.12.3.38/Tools/JS/js-biblioteker/Jquery/jquery.js"></script>
+        <title>
+            Testing
+        </title>
+    </head>
+    
+    <body style="text-align: center;" id="body">
+        <h1>
+            Testing for aa poste data.
+        </h1>
+        <p>
+            <input type="text" id="name" placeholder="ID'en">
+            <input type="text" id="email" placeholder="requestn">
+
+            <button onclick="sendJSON()">Send egendefinert Data</button>
+
+            <p class="result" style="color:green"></p>
+        </p>
+        <!--
+        <p>
+            <button onclick="sendJSON()">Send Data</button>
+        </p>
+       
+
+        <script type="text/javascript">
+            //function sendJSON() {
+                //var ID = "1";
+                //var dataType = "1";
+            //};
+
+            function sendJSON() {
+               
+                let result = document.querySelector('.result'); 
+                let name = document.querySelector('#name'); 
+                let email = document.querySelector('#email'); 
+                
+                // Creating a XHR object 
+                let xhr = new XMLHttpRequest(); 
+                let url = "http://10.12.3.38/tmp/graph-data-json.php"; 
+            
+                // open a connection 
+                xhr.open("POST", url, true); 
+    
+                // Set the request header i.e. which type of content you are sending 
+                xhr.setRequestHeader("Content-Type", "application/json"); 
+    
+                // Create a state change callback 
+                xhr.onreadystatechange = function (responseText) { 
+                    if (xhr.readyState === 4 && xhr.status === 200) { 
+                        
+                        var dataJSONconvertert = [];
+
+                        for (var i = 0; i < responseText.length; i++) {
+                            dataJSONconvertert.push({
+                                Temperatur: responseText[i].Temperatur,
+                                Fuktighet: responseText[i].Fuktighet
+                            });
+                            result.innerHTML = dataJSONconvertert;
+                        }
+
+                        // Print received data from server 
+                        //result.innerHTML = this.responseText; 
+                        //result.innerHTML = dataJSONconvertert;
+                        console.warn(dataJSONconvertert);
+//                        var responseDataRaw = this.responseText;
+//                        var responseData = JSON.stringify({"Temperatur": this.responeText.Temperatur, "Fuktighet": this.responeText.Fuktighet, "TidUNIX": this.responeText.TidUNIX});
+//                        result.innerHTML = responseData;
+                    } 
+                }; 
+    
+                // Converting JSON data to string 
+                var data = JSON.stringify({ "name": name.value, "email": email.value }); 
+    
+                // Sending data with the request 
+                xhr.send(data);  
+            }
+        </script>
+
+    -->
+
+        <script type="text/javascript">
+            function sendJSON() {
+                var id = "en";
+                var dataType = "to";
+                var dataRecived = [];
+
+                var data = JSON.stringify({ "id": id, "dataType": dataType });
+
+                $.post("http://10.12.3.38/tmp/graph-data-json.php", data, parseData);
+
+                function parseData(result) {
+                    for (var i = 0; i < result.length; i++) {
+                        dataRecived.push({
+                            x: result[i].TidUNIX*1000,
+                            y: result[i].Temperatur
+                        });
+                    }
+                    console.warn(data);
+                    console.warn(dataRecived);
+                };
+            }; 
+        </script>
+    </body>
+</html>
+
+
+//Hent Temp og Fukt data for 24 timer.
+
+$.getJSON("http://10.12.3.38/PHP/rom235/read-and-convert-24hr.php", parseData24hr);         //Legg til addresse
+function parseData24hr(result) {
+      for (var i = 0; i < result.length; i++) {
+            dataTemp24timer.push({
+                  x: result[i].TidUNIX*1000,
+                  y: result[i].Temperatur
+            });
+            dataFukt24timer.push({
+                  x: result[i].TidUNIX*1000,
+                  y: result[i].Fuktighet
+            });
+      }
+      chart24timer.render();
+}
+
+//Hent all Temp og Fukt data.
+
+$.getJSON("http://10.12.3.38/PHP/rom235/read-and-convert-totalt.php", parseDataTotalt);         //Legg til addresse
+function parseDataTotalt(result) {
+      for (var i = 0; i < result.length; i++) {
+            dataTempTotalt.push({
+                  x: result[i].TidUNIX*1000,
+                  y: result[i].Temperatur
+            });
+            dataFuktTotalt.push({
+                  x: result[i].TidUNIX*1000,
+                  y: result[i].Fuktighet
+            });
+      }
+      chartTotalt.render();
+}

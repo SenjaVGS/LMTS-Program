@@ -1,0 +1,16 @@
+directories:
+  output: build
+  buildResources: build
+publish:
+  - provider: github
+    owner: SenjaVGS
+    repo: LMTS-Program
+appId: com.senjaVGS.app
+productName: LMTS Overvåking
+target: NSIS
+win:
+  icon: /dist/images/logo/icon.ico
+nsis:
+  allowToChangeInstallationDirectory: true
+  oneClick: false
+electronVersion: 10.1.3

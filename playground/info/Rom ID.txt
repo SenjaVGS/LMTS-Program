@@ -1,0 +1,35 @@
+ ________________________________________
+/   Rom:         |Plass:|   ID:          \
+|________________|______|________________|                                   
+|   Rom 235      | Finn | ID = 1         |
+|   Server Rom   | Gibo | ID = 2         |
+|   Kantine Kjøl | Finn | ID = 3         |
+|   Kantine Kjøl | Gibo | ID = 4         |
+|   Kantine Frys | Finn | ID = 5         |
+|   Kantine Frys | Gibo | ID = 6         |   
+|   Rom 256      | Finn | ID = 7         |
+|   Rom 257      | Finn | ID = 8         |
+|   Rom 258      | Finn | ID = 9         |
+|   Rom 261      | Finn | ID = 10        |
+|   Rom 260      | Finn | ID = 11        |
+|   Rom 273      | Finn | ID = 12        |
+|   Baat Sim     | Gibo | ID = 13        |
+|   Traktor Sim  | Gibo | ID = 14        |
+|   ???          |  ??  | ID = ??        |
+|   ???          |  ??  | ID = ??        |                
+|   ???          |  ??  | ID = ??        |                
+|   ???          |  ??  | ID = ??        |                
+|   ???          |  ??  | ID = ??        |                
+|   ???          |  ??  | ID = ??        |  
+|   ???          |  ??  | ID = ??        |
+|   ???          |  ??  | ID = ??        |                
+|   ???          |  ??  | ID = ??        |                
+|   ???          |  ??  | ID = ??        |                
+|   ???          |  ??  | ID = ??        |                
+|   ???          |  ??  | ID = ??        |              
+\________________________________________/
+
+ _____________________________________
+/                                     \
+|Laget av: | Made by: Lexus Andersen. |
+\_____________________________________/

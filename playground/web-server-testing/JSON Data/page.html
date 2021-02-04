@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/Users/Lexus/Desktop/App LMTS/css/graph-stylesheet.css">
+        <script src="/Users/Lexus/Desktop/App LMTS/js/libs/jquery.js"></script>
+        <script>
+                    window.onload = function () {
+                          var CanvasJS = require('/Users/Lexus/Desktop/App LMTS/js/libs/canvasjs.min.js');
+                          var dataTemp24timer = [];
+                          var dataFukt24timer = [];
+                          var dataTempTotalt = [];
+                          var dataFuktTotalt = [];
+
+                          //Lag og design graf til visning av data for 24 timer.
+
+                          var chart24timer = new CanvasJS.Chart("chartContainer24timer", {
+                                animationEnabled: true,
+                                theme: "light2",
+                                zoomEnabled: true,
+
+                                title: {
+                                      text: "Temperatur og Fuktighet."
+                                },
+
+                                axisX: {
+                                      valueFormatString: "HH:mm",
+                                      crosshair: {
+                                            enabled: true,
+                                            snapToDataPoint: true
+                                      }
+                                },
+
+                                axisY: {
+                                      title: "Grader og fuktighet i prosent",
+                                      crosshair: {
+                                            enabled: false
+                                      }
+                                },
+
+                                toolTip: {
+                                      shared:true
+                                },
+
+                                legend: {
+                                      cursor:"pointer",
+                                      verticalAlign: "bottom",
+                                      horizontalAlign: "left",
+                                      dockInsidePlotArea: true,
+                                      itemclick: toogleDataSeries
+                                },
+
+                                data: [{
+                                      type: "line",
+                                      showInLegend: true,
+                                      name: "Temperatur",
+                                      markerType: "square",
+                                      color: "#F08080",
+                                      yValueFormatString: "##.## °C",
+                                      xValueType: "dateTime",
+                                      xValueFormatString: "D MMMM HH:mm",
+                                      dataPoints: dataTemp24timer
+                                },
+                                {
+                                      type: "line",
+                                      showInLegend: true,
+                                      name: "Fuktighet",
+                                      lineDashType: "dash",
+                                      color: "#00cc00",
+                                      yValueFormatString: "##,## %",
+                                      xValueType: "dateTime",
+                                      xValueFormatString: "D MMMM HH:mm",
+                                      dataPoints: dataFukt24timer
+                                }]
+                          });
+
+                          //Lag og design graf til visning av all data sammlet.
+
+                          var chartTotalt = new CanvasJS.Chart("chartContainerTotalt", {
+                                animationEnabled: true,
+                                theme: "light2",
+                                zoomEnabled: true,
+
+                                title: {
+                                      text: "Temperatur og Fuktighet totalt."
+                                },
+
+                                axisX: {
+                                      valueFormatString: "YYYY MMMM HH:mm",
+                                      crosshair: {
+                                            enabled: true,
+                                            snapToDataPoint: true
+                                      }
+                                },
+
+                                axisY: {
+                                      title: "Grader og fuktighet i prosent",
+                                      crosshair: {
+                                            enabled: false
+                                      }
+                                },
+
+                                toolTip:{
+                                      shared:true
+                                },
+
+                                legend:{
+                                      cursor:"pointer",
+                                      verticalAlign: "bottom",
+                                      horizontalAlign: "left",
+                                      dockInsidePlotArea: true,
+                                      itemclick: toogleDataSeries
+                                },
+
+                                data: [{
+                                      type: "line",
+                                      showInLegend: true,
+                                      name: "Temperatur",
+                                      markerType: "square",
+                                      color: "#F08080",
+                                      yValueFormatString: "##.## °C",
+                                      xValueType: "dateTime",
+                                      xValueFormatString: "YYYY D MMMM HH:mm",
+                                      dataPoints: dataTempTotalt
+                                },
+                                {
+                                      type: "line",
+                                      showInLegend: true,
+                                      name: "Fuktighet",
+                                      lineDashType: "dash",
+                                      color: "#00cc00",
+                                      yValueFormatString: "##,## %",
+                                      xValueType: "dateTime",
+                                      xValueFormatString: "YYYY D MMMM HH:mm",
+                                      dataPoints: dataFuktTotalt
+                              }]
+                        });
+
+                          //Hent Temp og Fukt data for 24 timer.
+
+                        var php_url = "http://10.12.3.38/PHP/graph-data-json.php";
+                        var php_clear_file = "clear";
+                        
+
+
+
+                        $.post("http://10.12.3.38/PHP/graph-data-json.php", {ID: 1, dataType: 1}, parseData24hr);
+
+                        //$.getJSON("http://10.12.3.38/Tools/PHP/php-graf-LMTS-0/read-and-convert-24hr.php", parseData24hr);         //Legg til addresse
+                        function parseData24hr(result) {
+                              for (var i = 0; i < result.length; i++) {
+                                    dataTemp24timer.push({
+                                          x: result[i].TidUNIX*1000,
+                                          y: result[i].Temperatur
+                                    });
+                                    dataFukt24timer.push({
+                                          x: result[i].TidUNIX*1000,
+                                          y: result[i].Fuktighet
+                                    });
+                              }
+                              chart24timer.render();
+                        }
+
+                          //Hent all Temp og Fukt data.
+
+
+                  $.post("http://10.12.3.38/PHP/graph-data-json.php", Post_data, )
+
+                  $.getJSON("http://10.12.3.38/Tools/PHP/php-graf-LMTS-0/read-and-convert-totalt.php", parseDataTotalt);         //Legg til addresse
+                  function parseDataTotalt(result) {
+                        for (var i = 0; i < result.length; i++) {
+                              dataTempTotalt.push({
+                                    x: result[i].TidUNIX*1000,
+                                    y: result[i].Temperatur
+                              });
+                              dataFuktTotalt.push({
+                                    x: result[i].TidUNIX*1000,
+                                    y: result[i].Fuktighet
+                              });
+                        }
+                        chartTotalt.render();
+                  }
+
+                  function toogleDataSeries(e) {
+                        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                              e.dataSeries.visible = false;
+                        }
+                        else {
+                              e.dataSeries.visible = true;
+                        }
+                        chart24timer.render();
+                        chartTotalt.render();
+                  }
+            };
+      </script>
+    </head>
+    <body>
+        <div class="header">
+          <h1>Server rom.</h1>
+          <p>Overvåking for Server rommene.</p>
+        </div>
+        <div class="topnav">
+                <a href="/Users/Lexus/Desktop/App LMTS/index.html">Tilbake</a>
+                <!--
+                <ul href="https://www.tffk.no/">
+                    <img id="logo" src="https://www.tffk.no/kunde/grafikk/logo_farge_web.svg" alt="TFFK-Logo">
+                </ul>
+              -->
+        </div>
+
+        <div class="row235">
+          <div class="column235">
+            <h1>Rom 235 IKT-Rom</h1>
+            <div id="chartContainerTotalt"></div>
+          </div>
+          <div class="column235">
+            <button id="myButton">Last ned i Excel format</button>
+            <script type="text/javascript">
+                              const objectToCsv = function(data) {
+                                    const csvRows = [];
+                                    const headers = Object.keys(data[0]);
+                                    csvRows.push(headers.join('      \;'));
+
+                                    for(const row of data) {
+                                          const values = headers.map(header => {
+                                                const escaped = (''+row[header]).replace(/"/g, '\\"');
+                                                return `${escaped}\;`;
+                                          });
+                                          csvRows.push(values.join(''));
+                                    }
+                                    return csvRows.join('\n');
+                               };
+
+                              const download = function(csvData) {
+                                    const blob = new Blob([csvData], { type: 'text/csv'});
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.setAttribute('hidden', '');
+                                    a.setAttribute('href', url);
+                                    a.setAttribute('download', 'Sensor-data.csv');
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    document.body.removeChild(a);
+                              };
+
+                              const getReport = async function() {
+                                    const jsonUrl = 'http://10.12.3.38/Tools/PHP/php-graf-LMTS-0/read-and-convert-CSV.php';         //Legg til addresse
+                                    const res = await fetch(jsonUrl);
+                                    const json = await res.json();
+
+                                    const data = json.map(row => ({
+                                          ID: row.ID,
+                                          Temperatur: row.Temperatur + "*C",
+                                          Fuktighet: row.Fuktighet + "%",
+                                          Tid: row.Tid,
+                                    }));
+                                    const csvData = objectToCsv(data);
+                                    download(csvData);
+                              };
+
+                              (function() {
+                                    const button = document.getElementById('myButton');
+                                    button.addEventListener('click', getReport);
+                              })();
+                    </script>
+            <div id="gjennomsnitt">
+                    <table id="tableID">
+
+                        <tr id="AVGtittel">
+                            <th>Gjennomsnitt Totalt</th>
+                        </tr>
+
+                        <tr id="AVGtemp">
+                            <th> Temperatur: </th>
+                            <th id="tempAVG"></th>
+                        </tr>
+
+                        <tr id="AVGfukt">
+                            <th>Fuktighet: </th>
+                            <th id="fuktAVG"></th>
+                        </tr>
+                        <script src="/Users/Lexus/Desktop/App LMTS/js/libs/jquery.js"></script>
+                        <script type="text/javascript">
+                                  require('/Users/Lexus/Desktop/App LMTS/js/libs/jquery.js')
+                                  var tempAVG = [];
+                                  var fuktAVG = [];
+                                  $.getJSON("http://10.12.3.38/Tools/PHP/php-graf-LMTS-0/read-and-convert-AVG.php", parseDataAVG);         //Legg til addresse
+
+                                  function parseDataAVG(result) {
+                                        var avgTemp = JSON.parse(JSON.stringify(result).split('"AVG(Temperatur)":').join('"Temperatur":'));
+                                        var avgFukt = JSON.parse(JSON.stringify(result).split('"AVG(Fuktighet)":').join('"Fuktighet":'));
+
+                                        for (var i = 0; i < avgTemp.length; i++) {
+                                              tempAVG.push(avgTemp[i].Temperatur);
+                                        }
+
+                                        for (var i = 0; i < avgFukt.length; i++) {
+                                              fuktAVG.push(avgFukt[i].Fuktighet);
+                                        }
+
+                                        var rundOppTemp = Math.round(tempAVG * 100) / 100;
+                                        var rundOppFukt = Math.round(fuktAVG * 100) / 100;
+
+                                        document.getElementById("tempAVG").innerHTML = rundOppTemp;
+                                        document.getElementById("fuktAVG").innerHTML = rundOppFukt;
+                                  };
+                        </script>
+                    </table>
+                </div>
+          </div>
+          <div class="column235">
+            <div id="chartContainer24timer"></div>
+          </div>
+        </div>
+      <script src="/Users/Lexus/Desktop/App LMTS/js/libs/canvasjs.min.js"></script>
+    </body>
+</html>

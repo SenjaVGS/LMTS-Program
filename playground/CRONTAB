@@ -1,0 +1,24 @@
+# CRONTAB/CRON Script for kjøring av sensor script.
+#
+# annen hver time. NORMAL
+# 00 0,*/2 * * * python3 /LeMaTempSens/sensor-script.py >/dev/null 2>&1
+#
+# hver time.
+00 * * * * python3 /LeMaTempSens/sensor-script.py >/dev/null 2>&1
+#
+# hver 30 min.
+# 00,30 * * * * python3 /LeMaTempSens/sensor-script.py >/dev/null 2>&1
+#
+# hver 10 min.
+0 * * * * python3 /LeMaTempSens/sensor-script-logging.py >/dev/null 2>&1
+#
+# hvert minutt. (Bare for testing!)
+# 0,*/2 * * * * python3 /LeMaTempSens/lab/sensor-script.py >/dev/null 2>&1
+#
+# OBS! Husk å restart CRONTAB for hver gang du skifter når CRON skal kjøre.
+# For å restarte CRON skriv i konsoll: "sudo service cron restart".
+# For å se at CRON startet riktig og kjører skriv i konsoll: "sudo service cron status".
+#
+# Du kan også bruke "sudo service cron status" for å se om CRON kjørte scriptet rett etter
+# rett tids interval.
+
